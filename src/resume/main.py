@@ -155,23 +155,50 @@ def parse_report(report_path, filename):
         # Store full content for display
         result["report_content"] = report_content
 
-        # Extract overall score (handle multiple formats - both /10 and /100)
+        # Try multiple patterns to extract the score
+        # Pattern 1: Look for "Overall Score: X/10" or "TOTAL WEIGHTED SCORE: X/10"
         score_match_10 = re.search(
             r'(?:\*\*Overall Score:\*\*|Overall Score:|TOTAL WEIGHTED SCORE:)\s*\[?([\d\.]+)\s*/\s*10\]?',
             report_content,
             re.IGNORECASE
         )
+        # Pattern 2: Look for "Overall Score: X/100" or "TOTAL WEIGHTED SCORE: X/100"
         score_match_100 = re.search(
             r'(?:\*\*Overall Score:\*\*|Overall Score:|TOTAL WEIGHTED SCORE:)\s*\[?([\d\.]+)\s*/\s*100\]?',
             report_content,
             re.IGNORECASE
         )
+        # Pattern 3: Look for "Overall Score: X" or "TOTAL WEIGHTED SCORE: X" without denominator
+        score_match_plain = re.search(
+            r'(?:\*\*Overall Score:\*\*|Overall Score:|TOTAL WEIGHTED SCORE:)\s*\[?([\d\.]+)\]?(?!\s*/)',
+            report_content,
+            re.IGNORECASE
+        )
+        # Pattern 4: Look for "Key Contributors:" followed by weighted scores that sum up
+        weighted_scores = re.findall(
+            r'\[?([\d\.]+)\]?\s*(?:points|point)\s*\(Source',
+            report_content
+        )
         
         if score_match_10:
             result["score"] = float(score_match_10.group(1))
+            print(f"Found score /10: {result['score']}")
         elif score_match_100:
             # Convert score from /100 to /10 scale
             result["score"] = float(score_match_100.group(1)) / 10
+            print(f"Found score /100: {result['score']}")
+        elif score_match_plain:
+            # Assume it's out of 10 if no denominator is specified
+            result["score"] = float(score_match_plain.group(1))
+            print(f"Found plain score: {result['score']}")
+        elif weighted_scores:
+            # Sum up the weighted scores if individual components are found
+            try:
+                total = sum(float(score) for score in weighted_scores)
+                result["score"] = total
+                print(f"Calculated score from components: {result['score']}")
+            except ValueError:
+                pass
 
         # Extract recommendation
         decision_match = re.search(r'\*\*Decision:\*\* ([^\n]+)', report_content)
@@ -233,7 +260,7 @@ def display_individual_reports(results_data):
 
     for idx, result in enumerate(sorted_results):
         # Create expander with score and recommendation in title
-        with st.expander(f"#{idx+1}: {result['filename']} - Score: {result['score']} - {result['recommendation']}"):
+        with st.expander(f"#{idx+1}: {result['filename']} - Score: {result['score']:.1f}/10"):
             if not result["valid"]:
                 st.error(f"Error: {result['error']}")
             else:
