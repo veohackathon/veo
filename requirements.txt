@@ -1,5 +1,7 @@
+python-3.11.6
 crewai
 crewai-tools
 python-dotenv
 streamlit
 PyPDF2==3.0.1
+chromadb==0.3.29
