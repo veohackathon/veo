@@ -1,5 +1,20 @@
-crewai
-crewai-tools
-python-dotenv
 streamlit
+python-dotenv
 PyPDF2==3.0.1
+pysqlite3-binary
+
+# Compatible and working versions
+chromadb==0.3.29
+crewai==0.20.8
+crewai-tools
+
+# Your additional tools
+click
+docker
+embedchain
+lancedb
+openai
+pydantic
+pyright
+pytube
+requests

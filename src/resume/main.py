@@ -10,6 +10,11 @@ from datetime import datetime
 from dotenv import load_dotenv
 from crew import Resume
 
+
+import pysqlite3
+sys.modules["sqlite3"] = pysqlite3
+
+
 load_dotenv()
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
