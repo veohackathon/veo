@@ -3,7 +3,7 @@ python-dotenv
 PyPDF2==3.0.1
 pysqlite3-binary
 chromadb==0.4.22
-crewai==latest-compatible-version
+crewai
 click
 docker
 embedchain
