@@ -13,10 +13,6 @@ from dotenv import load_dotenv
 from tools.custom_tool import CustomPDFTool
 from report_schema import ReportModel  # Enforce standardized report structure
 
-from chromadb.config import Settings
-
-client = chromadb.Client(Settings(chroma_db_impl="duckdb+parquet", persist_directory="./chroma_db"))
-
 load_dotenv()
 
 # Reduced temperature for more consistent results

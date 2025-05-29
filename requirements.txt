@@ -1,12 +1,5 @@
-# Required base libraries
-streamlit
-python-dotenv
-PyPDF2==3.0.1
-
-# Fix for sqlite3 errors with chromadb
-pysqlite3-binary
-
-# Version-pinned to avoid sqlite3 3.35+ errors
-chromadb==0.3.29
-crewai==0.20.8
+crewai
 crewai-tools
+python-dotenv
+streamlit
+PyPDF2==3.0.1
