@@ -10,6 +10,11 @@ from datetime import datetime
 from dotenv import load_dotenv
 from crew import Resume
 
+# Patch sqlite3 for chromadb
+import pysqlite3
+sys.modules["sqlite3"] = pysqlite3
+
+
 import chromadb
 
 from chromadb.config import Settings
