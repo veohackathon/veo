@@ -4,3 +4,4 @@ crewai==0.20.8
 python-dotenv
 streamlit
 PyPDF2==3.0.1
+python-3.11.6
