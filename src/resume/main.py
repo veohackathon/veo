@@ -10,6 +10,13 @@ from datetime import datetime
 from dotenv import load_dotenv
 from crew import Resume
 
+import chromadb
+
+from chromadb.config import Settings
+
+client = chromadb.Client(Settings(chroma_db_impl="duckdb+parquet", persist_directory="./chroma_db"))
+
+
 load_dotenv()
 warnings.filterwarnings("ignore", category=SyntaxWarning, module="pysbd")
 
