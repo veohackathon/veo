@@ -2,8 +2,8 @@ streamlit
 python-dotenv
 PyPDF2==3.0.1
 pysqlite3-binary
-chromadb==0.3.29
-crewai==0.11.2
+chromadb
+crewai
 click
 docker
 embedchain
